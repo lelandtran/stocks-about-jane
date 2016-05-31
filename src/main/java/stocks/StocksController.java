@@ -5,6 +5,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import yahoofinance.Stock;
+import yahoofinance.YahooFinance;
+
+import java.io.IOException;
+
 @Controller
 public class StocksController {
 
@@ -15,7 +20,16 @@ public class StocksController {
 	}
 
 	@RequestMapping("/")
-	public String index(){
+	public String index(Model model){
+		try {
+			Stock stock = YahooFinance.get("INTC");
+			model.addAttribute("name", "INTC");
+			model.addAttribute("price", stock.getQuote(true).getPrice());
+		}
+		catch (IOException e){
+
+		}
 		return "index";
 	}
+
 }
