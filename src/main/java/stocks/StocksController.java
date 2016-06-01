@@ -67,21 +67,4 @@ public class StocksController {
 		return resp;
 	}
 
-	@RequestMapping("/phone/edit")
-	public JSONObject editPhone(@RequestParam(value="phoneParam", required=false) String phoneParam) throws JSONException {
-		JSONObject response = new JSONObject();
-		if (phoneParam != null){
-			String phoneRegex = "^(?:(?:\\+?1\\s*(?:[.-]\\s*)?)?(?:\\(\\s*([2-9]1[02-9]|[2-9][02-8]1|[2-9][02-8][02-9])\\s*\\)|([2-9]1[02-9]|[2-9][02-8]1|[2-9][02-8][02-9]))\\s*(?:[.-]\\s*)?)?([2-9]1[02-9]|[2-9][02-9]1|[2-9][02-9]{2})\\s*(?:[.-]\\s*)?([0-9]{4})(?:\\s*(?:#|x\\.?|ext\\.?|extension)\\s*(\\d+))?$";
-			if (phoneParam.matches(phoneRegex)){
-				phoneNumber = phoneParam;
-				response.put("status", "success");
-			}
-			else {
-				response.put("status", "error");
-				response.put("errorMessage", "Phone format not valid");
-			}
-		}
-		return response;
-	}
-
 }
