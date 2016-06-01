@@ -23,7 +23,6 @@ public class ScheduledStockCheck {
 
 	private static BigDecimal startingPriceOfToday = new BigDecimal(BigDecimal.ROUND_CEILING);
 	private static double deltaToNotify = 1.0;
-	private static String stockName = "INTC";
 
 	private static final String ACCOUNT_SID = "AC6e71fb7422800a2cc39230311da08588";
 	private static final String AUTH_TOKEN = "8054f0218fc92eaed7f4d9e22e3cea01";
@@ -31,7 +30,7 @@ public class ScheduledStockCheck {
 	@Scheduled(cron = "0 0 8 * * *", zone = "EST")
 	public void setStartingPriceOfToday(){
 		try {
-			Stock stock = YahooFinance.get(stockName);
+			Stock stock = YahooFinance.get(StocksController.stockSymbol);
 			startingPriceOfToday = stock.getQuote(true).getPrice();
 			textUser(startingPriceOfToday.doubleValue());
 		}
@@ -45,12 +44,12 @@ public class ScheduledStockCheck {
 	@Scheduled(cron = "0 0 * * * *")
 	public void reportStockPriceHourly(){
 		try {
-			Stock stock = YahooFinance.get(stockName);
+			Stock stock = YahooFinance.get(StocksController.stockSymbol);
 			BigDecimal currentPrice = stock.getQuote(true).getPrice();
 			if (currentPrice.subtract(startingPriceOfToday).doubleValue() > deltaToNotify){
 				textUser(currentPrice.doubleValue());
 			}
-			System.out.println("The stock price for " + stockName + " is " + stock.getQuote(true).getPrice());
+			System.out.println("The stock price for " + StocksController.stockSymbol + " is " + stock.getQuote(true).getPrice());
 		}
 		catch (IOException e){
 			System.out.println("IOException caught");
@@ -63,10 +62,10 @@ public class ScheduledStockCheck {
 		TwilioRestClient client = new TwilioRestClient(ACCOUNT_SID, AUTH_TOKEN);
 
 		List<NameValuePair> params = new ArrayList<NameValuePair>();
-		params.add(new BasicNameValuePair("To", "+17608715513"));
+		params.add(new BasicNameValuePair("To", StocksController.phoneNumber));
 		params.add(new BasicNameValuePair("From", "+17608715513"));
 		StringBuilder sb = new StringBuilder();
-		sb.append("Hi Jane! Intel's stock is currently at ").append(currentPrice);
+		sb.append("Hi Jane! Your stock in ").append(StocksController.stockSymbol).append("is currently at ").append(currentPrice);
 		String textMessage = sb.toString();
 		params.add(new BasicNameValuePair("Body", textMessage));
 
