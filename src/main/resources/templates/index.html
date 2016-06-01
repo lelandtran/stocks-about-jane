@@ -3,21 +3,70 @@
 <head>
     <title>Getting Started: Serving Web Content</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+    <!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous" />
+
+	<!-- jQuery library -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
 </head>
 <body>
 	<div class="container col-md-4 col-md-offset-4">
 		<center>
 		    <h1>Welcome Jane</h1>
 		    <h3 th:inline="text">
-		    	[[${name}]]'s price is [[${price}]]
+		    	[[${stockSymbol}]]'s price is [[${stockPrice}]]
 		    </h3>
 		</center>
+		<div class="container col-md-12">
+			<form id="edit-stock-form" class="form-horizontal" role="form">
+				<div class="form-group">
+					<label class="control-label col-sm-3" for="stockParam">Stock:</label>
+					<div class="col-md-6">
+						<input type="text" class="form-control" id="stockParam" placeholder="Enter stock symbol"/>
+					</div>
+					<div class="col-md-3">
+						<button type="submit" class="btn btn-primary">Edit</button>
+					</div>
+				</div>
+			</form>
+			<form id="edit-phone-form" class="form-horizontal" role="form">
+				<div class="form-group">
+					<label class="control-label col-sm-3" for="phoneParam">Phone #:</label>
+					<div class="col-md-6">
+						<input type="text" class="form-control" id="phoneParam" placeholder="Enter phone number"/>
+					</div>
+					<div class="col-md-3">
+						<button type="submit" class="btn btn-primary">Edit</button>
+					</div>
+				</div>
+			</form>		
+		</div>
 	</div>
 
-	<!-- Latest compiled and minified CSS -->
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous" />
+	<script>
+		$(document).ready(function() {
+			$("#edit-stock-form").submit(function(e) {
+				e.preventDefault();
+				editStock();
+			})
 
-	<!-- Latest compiled and minified JavaScript -->
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+			$("#edit-phone-form").submit(function(e) {
+				e.preventDefault();
+				editPhone();
+			})
+		})
+
+		function editStock(){
+			console.log("editStock");
+		}
+
+		function editPhone(){
+			console.log("editPhone");
+		}
+	</script>
 </body>
 </html>

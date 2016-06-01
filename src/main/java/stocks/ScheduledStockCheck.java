@@ -41,8 +41,8 @@ public class ScheduledStockCheck {
 
 	}
 
-	@Scheduled(cron = "*/30 * * * * *")
-	//@Scheduled(cron = "0 0 * * * *")
+	//@Scheduled(cron = "*/30 * * * * *") // for test purposes, check every 30 seconds
+	@Scheduled(cron = "0 0 * * * *")
 	public void reportStockPriceHourly(){
 		try {
 			Stock stock = YahooFinance.get(stockName);
@@ -65,16 +65,14 @@ public class ScheduledStockCheck {
 		List<NameValuePair> params = new ArrayList<NameValuePair>();
 		params.add(new BasicNameValuePair("To", "+17608715513"));
 		params.add(new BasicNameValuePair("From", "+17608715513"));
-		params.add(new BasicNameValuePair("Body", "Hi Jane! Intel's stock is currently at " + currentPrice));
+		StringBuilder sb = new StringBuilder();
+		sb.append("Hi Jane! Intel's stock is currently at ").append(currentPrice);
+		String textMessage = sb.toString();
+		params.add(new BasicNameValuePair("Body", textMessage));
 
 		MessageFactory messageFactory = client.getAccount().getMessageFactory();
-		try {
-			Message message = messageFactory.create(params);
-			System.out.println(message.getSid());
-		}
-		catch (TwilioRestException e){
-			e.printStackTrace();
-		}
+		//try { Message message = messageFactory.create(params); } catch (TwilioRestException e) { e.printStackTrace(); }
+		System.out.println("Text sent to Jane: " + "\n\t" + textMessage);
 		
 
 	}
